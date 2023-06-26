@@ -3,18 +3,20 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from .models import CustomUser, Prescription
-from .serializers import UserSerializer, PrescriptionSerializer
+from .serializers import UserSerializer, DoctorSerializer, PatientSerializer, PrescriptionSerializer
 from .permissions import IsReceptionist
 
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.all()
-    serializer_class = UserSerializer
+
+
+class DoctorViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.filter(role='DOCTOR')
+    serializer_class = DoctorSerializer
     permission_classes = [IsAuthenticated, IsReceptionist]
 
-    def get_permissions(self):
-        if self.action in ['list', 'retrieve']:
-            self.permission_classes = [IsAuthenticated,]
-        return super(UserViewSet, self).get_permissions()
+class PatientViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.filter(role='PATIENT')
+    serializer_class = PatientSerializer
+    permission_classes = [IsAuthenticated, IsReceptionist]
 
 class PrescriptionViewSet(viewsets.ModelViewSet):
     queryset = Prescription.objects.all()
