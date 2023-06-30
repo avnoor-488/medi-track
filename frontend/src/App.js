@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import DashboardPatient from "./components/DashboardPatient";
 import DashboardDoctor from "./components/DashboardDoctor";
 import Dashboard from "./components/Dashboard";
+import AddPatient from "./components/AddPatient";
+import Services from "./components/Services";
+import About from "./components/About";
 
 function App() {
   return (
@@ -16,6 +19,7 @@ function App() {
         <Route path="/dashboard-patient" element={<DashboardPatient />} />
         <Route path="/dashboard-doctor" element={<DashboardDoctor />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard/add-patient" element={<AddPatient />} />
       </Routes>
     </Router>
   );
@@ -26,7 +30,9 @@ function LandingPage() {
     <>
       <Navbar />
       <Home />
+      <About/>
       <Role />
+      <Services/>
     </>
   );
 }
