@@ -2,18 +2,22 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import LeftArrow from '../assets/arrowleft.png';
 import Logo from '../assets/logo.png';
-import Add from '../assets/Add.png';
+import Add from '../assets/add.png';
 import Update from '../assets/pencil.png';
 import Delete from '../assets/bin.png';
 import Settings from '../assets/cogwheel.png';
 import Dashboard1 from '../assets/dashboard.png';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
+  const token = useSelector((state) => state.receptionist.token);
+  const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const Menus = [
     { title: 'Dashboard', src: Dashboard1, link: '/' },
-    { title: 'Add patient', src: Add, gap: true, link: '/dashboard/add-patient' },
+    { title: 'Add patient', src: Add, gap: true, link: '/dashboard-receptionist/add-patient' },
     { title: 'Update Patient', src: Update, link: '/dashboard/update-patient' },
     { title: 'Delete Patient', src: Delete, link: '/dashboard/delete-patient' },
     { title: 'Add Doctor', src: Add, gap: true, link: '/dashboard/add-doctor' },
@@ -21,6 +25,19 @@ export default function Dashboard() {
     { title: 'Delete Doctor', src: Delete, link: '/dashboard/delete-doctor' },
     { title: 'Settings', src: Settings, gap: true, link: '/dashboard/settings' },
   ];
+
+
+
+
+    console.log('Token: ', token); // Log the token to debug it
+
+    useEffect(() => {
+      if (!token) {
+        navigate('/login-receptionist');
+      }
+    }, []);
+
+
 
   return (
     

@@ -15,7 +15,7 @@ export default function Role() {
         <div className="flex justify-between px-52 py-6">
           <div className="flex flex-col items-center">
             <div className="bg-white rounded-full p-2 mr-2">
-              <Link to="/dashboard-doctor">
+              <Link to="/login-doctor">
                 <FontAwesomeIcon className=" text-[#5588A3] hover:text-[#93BFCF]" icon="fa-solid fa-user-doctor" size="5x" />
               </Link>
             </div>
@@ -24,7 +24,7 @@ export default function Role() {
       
           <div className="flex flex-col items-center">
             <div className="bg-white rounded-full p-2 mr-2">
-              <Link to="/dashboard-patient">
+              <Link to="/login-patient">
                 <FontAwesomeIcon className=" text-[#5588A3] hover:text-[#93BFCF]" icon="fa-solid fa-user" size="5x" />
               </Link>
             </div>
@@ -33,7 +33,7 @@ export default function Role() {
       
           <div className="flex flex-col items-center">
             <div className="bg-white rounded-full p-2 mr-2">
-            <Link to="/dashboard-receptionist">
+            <Link to="/login-receptionist">
               <FontAwesomeIcon className=" text-[#5588A3] hover:text-[#93BFCF]" icon="fa-solid fa-hospital-user" size="5x" />
             </Link>
             </div>
