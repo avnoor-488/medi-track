@@ -24,7 +24,7 @@ class ReceptionistUser(CustomUser):
         verbose_name_plural = 'Receptionists'
 
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email')
+    list_display = ('username', 'email','id')
     def get_queryset(self, request):
         return super().get_queryset(request).filter(role='DOCTOR')
 
@@ -38,7 +38,7 @@ class PatientAdmin(admin.ModelAdmin):
     def doctor_assigned(self, obj):
         return obj.doctor_assigned.username if obj.doctor_assigned else None
 
-    list_display = ('username', 'email', 'full_name', 'blood_group', 'phone_number', 'address', 'patient_age', 'doctor_assigned')
+    list_display = ('id','username', 'email', 'full_name', 'blood_group', 'phone_number', 'address', 'patient_age', 'doctor_assigned')
 
 
 class ReceptionistAdmin(admin.ModelAdmin):

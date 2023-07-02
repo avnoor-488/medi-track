@@ -35,6 +35,7 @@ class DoctorLoginView(generics.GenericAPIView):
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'id':user.id
         })
 
 
@@ -49,9 +50,12 @@ class PatientLoginView(generics.GenericAPIView):
         if user.role != 'PATIENT':
             return Response({'detail': 'Unauthorized'}, status=status.HTTP_401_UNAUTHORIZED)
         refresh = RefreshToken.for_user(user)
+        print(user)
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'username':user.username,
+            'id':user.id
         })
 
 class ReceptionistLoginView(generics.GenericAPIView):
@@ -68,6 +72,8 @@ class ReceptionistLoginView(generics.GenericAPIView):
         return Response({
             'refresh': str(refresh),
             'access': str(refresh.access_token),
+            'username': user.username,
+            'id':user.id
         })
 
 class DoctorViewSet(viewsets.ModelViewSet):
@@ -79,6 +85,16 @@ class PatientViewSet(viewsets.ModelViewSet):
     queryset = Patient.objects.all()
     serializer_class = PatientSerializer
     permission_classes = [IsAuthenticated, IsReceptionist]
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        # Include the 'id' in the response.
+        data = serializer.data
+        data['id'] = str(serializer.instance.id)
+        return Response(data, status=status.HTTP_201_CREATED, headers=headers)
+    
 
 class PrescriptionViewSet(viewsets.ModelViewSet):
     queryset = Prescription.objects.all()

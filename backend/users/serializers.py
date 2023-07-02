@@ -81,7 +81,7 @@ def send_password_email(email, password):
     send_mail(
         'Your Account Password',
         f'Your password is {password}',
-        'avnoorsingh488@gmail.com',  # replace with your actual email
+        'admin@hospital-management.com',  # replace with your actual email
         [email],
         fail_silently=False,
     )
@@ -94,7 +94,7 @@ class UserSerializer(serializers.ModelSerializer):
 class DoctorSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('username', 'email', 'speciality')
+        fields = ('username', 'email', 'speciality','id')
         extra_kwargs = {'role': {'default': 'DOCTOR'}}
 
     def create(self, validated_data):
@@ -112,7 +112,7 @@ class DoctorSerializer(serializers.ModelSerializer):
 class PatientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Patient
-        fields = ('username', 'email', 'full_name', 'blood_group', 'phone_number', 'address', 'patient_age', 'doctor_assigned')
+        fields = ('id','username', 'email', 'full_name', 'blood_group', 'phone_number', 'address', 'patient_age', 'doctor_assigned')
         
     def create(self, validated_data):
         password = Patient.objects.make_random_password()

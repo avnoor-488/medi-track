@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-vnb^wk7jdemu&r-8%jrf^k(fes+tyo959n(k2_@-ayu6fi#8uj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -44,11 +44,13 @@ INSTALLED_APPS = [
     'users',
     'rest_framework.authtoken',
     'drf_yasg',
+    'corsheaders'
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -131,6 +133,10 @@ SWAGGER_SETTINGS = {
     'USE_SESSION_AUTH': False,
 }
 
+#cors setting, allowed origins
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",  # Assuming your React app runs on this port
+]
 AUTH_USER_MODEL = 'users.CustomUser'
 
 #settings for smtp server

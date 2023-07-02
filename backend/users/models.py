@@ -2,6 +2,8 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.core.validators import RegexValidator
+import uuid
+
 
 class CustomUserManager(BaseUserManager):
     def _create_user(self, username, email=None, password=None, **extra_fields):
@@ -52,6 +54,7 @@ class CustomUser(AbstractUser):
         ('PATIENT', 'Patient'), 
         ('RECEPTIONIST', 'Receptionist')
     )
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     role = models.CharField(max_length=12, choices=ROLE_CHOICES)
     speciality = models.CharField(max_length=30, blank=True, null=True)
     groups = models.ManyToManyField(Group, blank=True, related_name="customuser_set")
@@ -79,13 +82,3 @@ class Patient(CustomUser):
     address = models.TextField()
     patient_age = models.PositiveIntegerField()
     doctor_assigned = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='patients')
-
-# class Patient(models.Model):
-#     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='patient_profile', null=True)
-#     id = models.AutoField(auto_created=True, primary_key=True, verbose_name='ID', serialize=False, null=True)
-#     full_name = models.CharField(max_length=255)
-#     blood_group = models.CharField(max_length=3)
-#     phone_number = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,15}$')])
-#     address = models.TextField()
-#     patient_age = models.PositiveIntegerField()
-#     doctor_assigned = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='patients')

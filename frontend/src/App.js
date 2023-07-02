@@ -3,7 +3,7 @@ import Home from "./components/Home";
 import Role from "./components/Role";
 import DashboardReception from "./components/LoginReception";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import DashboardPatient from "./components/DashboardPatient";
+import DashboardPatient from "./components/LoginPatient";
 import DashboardDoctor from "./components/DashboardDoctor";
 import Dashboard from "./components/Dashboard";
 import AddPatient from "./components/AddPatient";

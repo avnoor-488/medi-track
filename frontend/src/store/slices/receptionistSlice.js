@@ -1,7 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    token: null
+    token: null,
+    loginInfo:{
+        username:"",
+        password:""
+    }   
 }
 
 const receptionistSlice = createSlice({
@@ -13,9 +17,13 @@ const receptionistSlice = createSlice({
         },
         clearReceptionistToken: state => {
             state.token = null
+        },
+        setReceptionistLoginInfo: (state, action) => {
+            console.log("action.payload",action.payload)
+            state.loginInfo = {...state.loginInfo, ...action.payload};
         }
     }
 })
 
-export const { setReceptionistToken, clearReceptionistToken } = receptionistSlice.actions
+export const { setReceptionistToken, clearReceptionistToken,setReceptionistLoginInfo } = receptionistSlice.actions
 export default receptionistSlice.reducer

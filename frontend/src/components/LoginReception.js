@@ -2,21 +2,22 @@ import React, { useEffect , useState} from 'react'
 import LoginImg from '../assets/login.jpg'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
-import { setReceptionistToken } from '../store/slices/receptionistSlice';
+import { setReceptionistToken,setReceptionistLoginInfo } from '../store/slices/receptionistSlice';
 import { useDispatch,useSelector } from 'react-redux';
 
 
 export default function Dashboard_reception() {
-  const [password, setPassword ] = useState("");
-  const [username,setUserName] = useState("");
+  // const [password, setPassword ] = useState("");
+  // const [username,setUserName] = useState("");
   const dispatch = useDispatch();
   const receptionistToken = useSelector((state)=>state.receptionist.token);
+  const receptionistLoginInfo = useSelector((state)=>state.receptionist.loginInfo);
   let navigate = useNavigate(); 
 
   const getAccessToken = async () =>{ 
-  await axios.post("http://localhost:8000/api/login/receptionist/",{username:username,password:password}
+  await axios.post("http://localhost:8000/api/login/receptionist/",receptionistLoginInfo
   ).then((response)=>{
-    console.log("response",response);
+    console.log("response",response.data);
     const token = response.data.access
     console.log(dispatch(setReceptionistToken(token)));
     navigate("/dashboard-receptionist")
@@ -26,22 +27,27 @@ export default function Dashboard_reception() {
   }
 
 
-  // const inputHandler = (e) =>{
-  //   if(e.target.name==="username"){
-  //     setUserName(e.target.value);
-  //     console.log("username",e.target.value);
-  //   }
-  //   else{
-  //     setPassword(e.target.value);
-  //     console.log("password",e.target.value);
-  //   }
+  // const inputHandler = (e) => {
+  //   let name = e.target.name;
+  //   let val = e.target.value;
+  //   console.log("name",name,"val",val);
+  //   console.log(dispatch(setReceptionistLoginInfo({ [name]: val})))
+
   // }
+
+  const inputHandlerReceptionist = (e) => {
+    let name = e.target.name;
+    let val = e.target.value;
+    console.log("username",name,"val",val)
+    console.log(dispatch(setReceptionistLoginInfo({ [name]: val})));
+  }
+
 
 
 useEffect(()=>{
   console.log("receptionist",receptionistToken);
-  console.log("username",username)
-},[receptionistToken,username,password])
+  console.log("username",receptionistLoginInfo)
+},[receptionistToken,receptionistLoginInfo])
 
   return (
       <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
@@ -53,11 +59,11 @@ useEffect(()=>{
             <h2 className='text-3xl font-semibold text-gray-400 text-center'>Sign In</h2>
             <div className='flex flex-col text-gray-400 py-2'>
               <label>User Name</label>
-              <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type="text" name='username' onClick={(e)=>{setUserName(e.target.value);console.log("username",username)}}/>
+              <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type="text" name='username' onChange={inputHandlerReceptionist}/>
             </div>
             <div className='flex flex-col text-gray-400 py-2'>
               <label>Password</label>
-              <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type="password" name='password' onClick={(e)=>setPassword(e.target.value)}/>
+              <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type="password" name='password' onChange={inputHandlerReceptionist}/>
             </div>
             <div className='flex justify-between text-gray-400 py-2'>
               <p className='flex items-center'><input className="mr-1" type="checkbox"/> Remember password</p>

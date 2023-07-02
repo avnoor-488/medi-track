@@ -13,6 +13,8 @@ import { useSelector } from 'react-redux';
 
 export default function Dashboard() {
   const token = useSelector((state) => state.receptionist.token);
+  const receptionistUsername = useSelector((state) => state.receptionist.loginInfo.username);
+
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const Menus = [
@@ -39,37 +41,22 @@ export default function Dashboard() {
 
 
 
+
+
   return (
-    
-      <div
-        className={` ${
-          open ? 'w-60' : 'w-20 '
-        } bg-[#00334E] h-screen p-5  pt-8 relative duration-300`}
-      >
-        <img
-          src={LeftArrow}
-          alt="A"
-          className={`absolute cursor-pointer -right-3 top-9 w-7 border-[#00334E]
-           border-2 rounded-full  ${!open && 'rotate-180'}`}
-          onClick={() => setOpen(!open)}
-        />
+    <>
+      <div className={` ${open ? 'w-60' : 'w-20'} bg-[#00334E] h-screen p-5  pt-8 relative duration-300`}>
+        <img src={LeftArrow} alt="A" className={`absolute cursor-pointer -right-3 top-9 w-7 border-[#00334E] border-2 rounded-full  ${!open && 'rotate-180'}`} onClick={() => setOpen(!open)}/>
         <div className="flex gap-x-4 items-center">
-          <img
-            src={Logo}
-            alt="MT"
-            className={`cursor-pointer duration-500 h-10 w-10 ${
-              open && 'rotate-[360deg]'
-            }`}
-          />
-          <h1
-            className={`text-white origin-left font-medium text-xl duration-200 ${
-              !open && 'scale-0'
-            }`}
-          >
+          <img src={Logo} alt="MT" className={`cursor-pointer duration-500 h-10 w-10 ${open && 'rotate-[360deg]'}`}/>
+          <h1 className={`text-white origin-left font-medium text-xl duration-200 ${!open && 'scale-0'}`}>
             MediTrack
           </h1>
         </div>
         <ul className="pt-6">
+        <div className=' p-2  text-white'>
+              Hii, {receptionistUsername}
+        </div>
           {Menus.map((Menu, index) => (
             <li
               key={index}
@@ -87,7 +74,12 @@ export default function Dashboard() {
             </li>
           ))}
         </ul>
+        
+
+        
       </div>
+      
+      </>
     
   );
 }

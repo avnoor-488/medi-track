@@ -1,7 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-    token: null
+    token: null,
+    loginInfo:{
+        username:"",
+        password:""
+    },
+    patientId:""
 }
 
 const patientSlice = createSlice({
@@ -9,13 +14,19 @@ const patientSlice = createSlice({
     initialState,
     reducers: {
         setPatientToken: (state, action) => {
-            state.token = action.payload
+            state.token = action.payload;
         },
         clearPatientToken: state => {
-            state.token = null
+            state.token = null;
+        },
+        setPatientLoginInfo: (state, action) => {
+            state.loginInfo = {...state.loginInfo, ...action.payload};
+        },
+        setPatientId:(state,action)=>{
+            state.patientId = action.payload;
         }
     }
 })
 
-export const { setPatientToken, clearPatientToken } = patientSlice.actions
+export const { setPatientToken, clearPatientToken ,setPatientLoginInfo,setPatientId} = patientSlice.actions
 export default patientSlice.reducer
