@@ -59,32 +59,42 @@
 #         fields = ('doctor', 'patient', 'description')
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 from rest_framework import serializers
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate
 from .models import CustomUser, Prescription, Patient
 
-def send_password_email(email, password):
-    send_mail(
-        'Your Account Password',
-        f'Your password is {password}',
-        'admin@hospital-management.com',  # replace with your actual email
-        [email],
-        fail_silently=False,
-    )
+def send_password_email(email, password,username,role):
+        # Email notification to the doctor
+
+    subject = 'Password of your account'
+    if role=="doctor":
+        message = f'Dear Dr.{username},\n\n' \
+                    f'Your account has been created by our receptionist.\n\n' \
+                    f'Please use this {username} as your username and {password} as your password to login into Dashboard.\n\n' \
+                    f'Best,\n' \
+                    f'Your Hospital Administration'
+
+        send_mail(
+            subject,
+            message,
+            'admin@hospital-management.com',  # replace with your actual email
+            [email],
+            fail_silently=False,
+        )
+    elif role=="patient":
+        message = f'Dear Patient {username},\n\n' \
+                f'Your account has been created by our receptionist.\n\n' \
+                f'Please use this "{username}" as your username and "{password}" as your password to login into Dashboard.\n\n' \
+                f'Best,\n' \
+                f'Your Hospital Administration'
+        send_mail(
+            subject,
+            message,
+            'admin@hospital-management.com',  # replace with your actual email
+            [email],
+            fail_silently=False,
+        )
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -106,7 +116,7 @@ class DoctorSerializer(serializers.ModelSerializer):
             role='DOCTOR',
             speciality=validated_data['speciality'],
         )
-        send_password_email(validated_data['email'], password)
+        send_password_email(validated_data['email'], password,validated_data['username'],role="doctor")
         return doctor
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -128,7 +138,7 @@ class PatientSerializer(serializers.ModelSerializer):
             patient_age=validated_data.get('patient_age'),
             doctor_assigned=validated_data.get('doctor_assigned'),
         )
-        send_password_email(validated_data['email'], password)
+        send_password_email(validated_data['email'], password,validated_data["username"],role="patient")
         return patient
 
 class PrescriptionSerializer(serializers.ModelSerializer):

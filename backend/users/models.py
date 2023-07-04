@@ -45,9 +45,6 @@ class CustomUserManager(BaseUserManager):
         return self._create_user(username, email, password, **extra_fields)
 
 
-
-
-
 class CustomUser(AbstractUser):
     ROLE_CHOICES = (
         ('DOCTOR', 'Doctor'), 
@@ -65,7 +62,6 @@ class CustomUser(AbstractUser):
         Prescription.objects.filter(doctor=self).update(doctor=None)
         Prescription.objects.filter(patient=self).update(patient=None)
     # Add similar lines for other related models
-
         super().delete(*args, **kwargs)
 
 
@@ -82,3 +78,12 @@ class Patient(CustomUser):
     address = models.TextField()
     patient_age = models.PositiveIntegerField()
     doctor_assigned = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='patients')
+
+class Doctor(CustomUser):
+    full_name = models.CharField(max_length=255)
+    medical_degree = models.CharField(max_length=255)
+    blood_group = models.CharField(max_length=3)
+    phone_number = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,15}$')])
+    address = models.TextField()
+    doctor_age = models.PositiveIntegerField()
+    # email = models.EmailField()

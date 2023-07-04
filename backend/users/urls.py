@@ -15,5 +15,5 @@ urlpatterns = [
     path('login/receptionist/', ReceptionistLoginView.as_view()),
     path('', include(router.urls)),
     path('assign_doctor/', AssignDoctorView.as_view()),
-    path('api/doctor/patients/', DoctorPatientsView.as_view(), name='doctor-patients'),
+    path('doctor/patients/', DoctorPatientsView.as_view(), name='doctor-patients'),
 ]

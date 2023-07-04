@@ -1,30 +1,77 @@
-import React from 'react'
-import LoginImg from '../assets/login.jpg'
-export default function DashboardDoctor() {
-  return (
-    <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
-      <div className='hidden sm:block'>
-        <img className='w-full h-full object-cover' src={LoginImg} alt="" />
-      </div>
-      <div className='bg-[#f2fbf3] flex flex-col justify-center'>
-        <form className='max-w-[400px] w-full mx-auto bg-[#145374] p-8 px-8 rounded-lg'>
-          <h2 className='text-3xl font-semibold text-gray-400 text-center'>Sign In</h2>
-          <div className='flex flex-col text-gray-400 py-2'>
-            <label>User Name</label>
-            <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type="text" />
-          </div>
-          <div className='flex flex-col text-gray-400 py-2'>
-            <label>Password</label>
-            <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type="password" />
-          </div>
-          <div className='flex justify-between text-gray-400 py-2'>
-            <p className='flex items-center'><input className="mr-1" type="checkbox"/> Remember password</p>
-            <p>Forgot Password?</p>
-          </div>
-          <button className='w-full my-5 py-2 bg-[#00334E]  hover:bg-[#93BFCF] hover:text-[#00334E] text-gray-400 font-semibold rounded-lg'>Sign In</button>
-        </form>
-      </div>
-      
-    </div>
-  )
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import LeftArrow from '../assets/arrowleft.png';
+import Logo from '../assets/logo.png';
+import Add from '../assets/add.png';
+import Dashboard1 from '../assets/dashboard.png';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+export default function DashboardD() {
+    const navigate = useNavigate();
+    const [open, setOpen] = useState(true);
+    const doctorToken = useSelector((state) => state.doctor.token);
+    const doctorUserName = useSelector((state) => state.doctor.loginInfo.username);
+
+    const Menus = [
+        { title: 'Dashboard', src: Dashboard1, link: '/dashboard-doctor' },
+        { title: 'View new patients', src: Add, gap: true, link: '/dashboard-doctor/view-new-patient' },
+        { title: 'View old patients', src: Add, link: '/dashboard-doctor/view-old-patient' },
+    ];
+
+    useEffect(() => {
+        if (!doctorToken) {
+            navigate('/login-doctor');
+        }
+    }, []);
+
+    return (
+        <div
+            className={` ${open ? 'w-60' : 'w-20 '
+                } bg-[#00334E] h-screen p-5  pt-8 relative duration-300`}
+        >
+            <img
+                src={LeftArrow}
+                alt="A"
+                className={`absolute cursor-pointer -right-3 top-9 w-7 border-[#00334E]
+           border-2 rounded-full  ${!open && 'rotate-180'}`}
+                onClick={() => setOpen(!open)}
+            />
+            <div className="flex gap-x-4 items-center">
+                <img
+                    src={Logo}
+                    alt="MT"
+                    className={`cursor-pointer duration-500 h-10 w-10 ${open && 'rotate-[360deg]'
+                        }`}
+                />
+                <h1
+                    className={`text-white origin-left font-medium text-xl duration-200 ${!open && 'scale-0'
+                        }`}
+                >
+                    MediTrack
+                </h1>
+            </div>
+            <ul className="pt-6">
+                <div className=' p-2  text-white'>
+                    Hii, {doctorUserName}
+                </div>
+                {Menus.map((Menu, index) => (
+                    <li
+                        key={index}
+                        className={`flex  rounded-md p-2 cursor-pointer hover:bg-[#145374] text-gray-300 text-sm items-center gap-x-4 
+              ${Menu.gap ? 'mt-9' : 'mt-2'} ${index === 0 && 'bg-light-white'
+                            } `}
+                    >
+                        <Link to={Menu.link} className="flex items-center">
+                            <img src={Menu.src} className="w-5 mr-2" alt="" />
+                            <span className={`${!open && 'hidden'} origin-left duration-200`}>
+                                {Menu.title}
+                            </span>
+                        </Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+    );
 }

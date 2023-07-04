@@ -135,7 +135,8 @@ SWAGGER_SETTINGS = {
 
 #cors setting, allowed origins
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",  # Assuming your React app runs on this port
+    "http://localhost:3000",     # Assuming your React app runs on this port
+    "http://localhost:3001",
 ]
 AUTH_USER_MODEL = 'users.CustomUser'
 
