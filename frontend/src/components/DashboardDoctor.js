@@ -1,6 +1,12 @@
 import React from 'react'
 import LoginImg from '../assets/login.jpg'
+import { useNavigate } from "react-router-dom";
 export default function DashboardDoctor() {
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `../dashboardd`; 
+    navigate(path);
+  }
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 h-screen w-full'>
       <div className='hidden sm:block'>
@@ -21,7 +27,7 @@ export default function DashboardDoctor() {
             <p className='flex items-center'><input className="mr-1" type="checkbox"/> Remember password</p>
             <p>Forgot Password?</p>
           </div>
-          <button className='w-full my-5 py-2 bg-[#00334E]  hover:bg-[#93BFCF] hover:text-[#00334E] text-gray-400 font-semibold rounded-lg'>Sign In</button>
+          <button className='w-full my-5 py-2 bg-[#00334E]  hover:bg-[#93BFCF] hover:text-[#00334E] text-gray-400 font-semibold rounded-lg' onClick={routeChange}>Sign In</button>
         </form>
       </div>
       
