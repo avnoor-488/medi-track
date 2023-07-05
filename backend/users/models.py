@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager
 from django.core.validators import RegexValidator
 import uuid
+from django.core.exceptions import ObjectDoesNotExist
 
 
 class CustomUserManager(BaseUserManager):
@@ -64,7 +65,6 @@ class CustomUser(AbstractUser):
     # Add similar lines for other related models
         super().delete(*args, **kwargs)
 
-
 class Prescription(models.Model):
     doctor = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='prescriptions_as_doctor')
     patient = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, related_name='prescriptions_as_patient')
@@ -77,13 +77,14 @@ class Patient(CustomUser):
     phone_number = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,15}$')])
     address = models.TextField()
     patient_age = models.PositiveIntegerField()
-    doctor_assigned = models.ForeignKey('CustomUser', on_delete=models.CASCADE, related_name='patients')
+    doctor_assigned = models.ForeignKey('CustomUser', on_delete=models.SET_NULL, null=True, blank=True, related_name='patients')
 
 class Doctor(CustomUser):
     full_name = models.CharField(max_length=255)
-    medical_degree = models.CharField(max_length=255)
     blood_group = models.CharField(max_length=3)
+    doctor_age = models.PositiveIntegerField()
     phone_number = models.CharField(max_length=15, validators=[RegexValidator(r'^\d{1,15}$')])
     address = models.TextField()
-    doctor_age = models.PositiveIntegerField()
     # email = models.EmailField()
+    medical_degree = models.CharField(max_length=255)
+    working_days = models.CharField(max_length=7, null=True)  # String of days separated by a comma

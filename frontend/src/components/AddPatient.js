@@ -15,6 +15,7 @@ export default function AddPatient() {
     let val = e.target.value;
     console.log(dispatch(setPatientData({ [name]: val})));
   }
+  
   const createPatient =  async () => {
     await axios.post("http://localhost:8000/api/patients/", patientData, {
       headers: {

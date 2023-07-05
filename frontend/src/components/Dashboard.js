@@ -31,7 +31,7 @@ export default function Dashboard() {
 
 
 
-  console.log('Token: ', token); // Log the token to debug it
+  // console.log('Token: ', token); // Log the token to debug it
 
   useEffect(() => {
     if (!token) {

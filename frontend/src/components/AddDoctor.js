@@ -1,9 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Dashboard from './Dashboard';
+import { useSelector,useDispatch } from 'react-redux';
+import { setDoctorData } from '../store/slices/doctorDataSlice';
+import axios from 'axios';
 
 export default function AddDoctor() {
+    const dispatch = useDispatch();
+    const doctorData = useSelector((state)=>state.doctorData.data);
+    const receptionistToken = useSelector((state)=>state.receptionist.token);
+  
     const [openDropdown, setOpenDropdown] = useState(false);
     const [workingDays, setWorkingDays] = useState([]);
 
@@ -18,13 +25,44 @@ export default function AddDoctor() {
     ];
 
     const toggleWorkingDay = (day) => {
-        if (workingDays.some((workingDay) => workingDay.id === day.id)) {
-            setWorkingDays(workingDays.filter((workingDay) => workingDay.id !== day.id));
+        if (workingDays.includes(day.label)) {
+            setWorkingDays(workingDays.filter((workingDay) => workingDay !== day.label));
         } else {
-            setWorkingDays([...workingDays, day]);
+            setWorkingDays([...workingDays, day.label]);
         }
+
+
     };
 
+
+    const inputHandler = (e) =>{
+        let name = e.target.name;
+        let val = e.target.value;
+        console.log(dispatch(setDoctorData({...doctorData, [name]: val})));
+    }
+
+
+    const createDoctor =  async () => {
+        await axios.post("http://localhost:8000/api/doctors/", doctorData, {
+          headers: {
+              'Authorization': `Bearer ${receptionistToken}`
+          }
+      })
+      .then(response => {
+          // handle your response here
+          console.log(response.data);
+      })
+      .catch(error => {
+          // handle error
+          console.log(error);
+      });  
+    }
+
+    useEffect(()=>{
+        console.log("workingDays",workingDays);
+        console.log(dispatch(setDoctorData({ ...doctorData, working_days: workingDays })));
+
+    },[workingDays])
     return (
         <div className='flex'>
             <Dashboard />
@@ -35,23 +73,45 @@ export default function AddDoctor() {
                         <div className='flex'>
                             <div className='w-1/2 pr-2'>
                                 <label className='text-gray-400'>Full Name</label>
-                                <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type='text'/>
-                            </div>
+                                <input 
+                                    className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' 
+                                    type='text'
+                                    defaultValue={typeof doctorData!=="undefined" && doctorData.full_name!==undefined ? doctorData.full_name : ""}
+                                    onChange={inputHandler}
+                                    name='full_name'
+                                />                            </div>
                             <div className='w-1/2 pl-2'>
                                 <label className='text-gray-400'>Email Address</label>
-                                <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type='email'/>
-                            </div>
+                                <input 
+                                    className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' 
+                                    type='email'
+                                    defaultValue={typeof doctorData!=="undefined" && doctorData.email!==undefined ? doctorData.email : ""}
+                                    onChange={inputHandler}
+                                    name='email'
+                                />                            </div>
                         </div>
                     </div>
                     <div className='flex flex-col text-gray-100 py-2'>
                         <div className='flex'>
                             <div className='w-1/2 pr-2'>
                                 <label className='text-gray-400'>Phone Number</label>
-                                <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type='tel'/>
+                                <input 
+                                    className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' 
+                                    type='tel'
+                                    defaultValue={typeof doctorData!=="undefined" && doctorData.phone_number!==undefined ? doctorData.phone_number : ""}
+                                    onChange={inputHandler}
+                                    name='phone_number'
+                                />
                             </div>
                             <div className='w-1/2 pl-2'>
                                 <label className='text-gray-400'>Doctor's Age</label>
-                                <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type='number'/>
+                                <input 
+                                    className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' 
+                                    type='number'
+                                    defaultValue={typeof doctorData!=="undefined" && doctorData.doctor_age!==undefined ? doctorData.doctor_age : ""}
+                                    onChange={inputHandler}
+                                    name='doctor_age'
+                                />
                             </div>
                         </div>
                     </div>
@@ -59,13 +119,22 @@ export default function AddDoctor() {
                         <div className='flex'>
                             <div className='w-1/2 pr-2'>
                                 <label className='text-gray-400'>Blood Group</label>
-                                <input className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' type='text'/>
+                                <input 
+                                    className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none' 
+                                    type='text'
+                                    defaultValue={typeof doctorData!=="undefined" && doctorData.blood_group!==undefined ? doctorData.blood_group : ""}
+                                    onChange={inputHandler}
+                                    name='blood_group'
+                                />
                             </div>
                             <div className='w-1/2 pl-2'>
                                 <label className='text-gray-400'>Medical Degree</label>
                                 <input
                                     className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none'
                                     type='text'
+                                    defaultValue={typeof doctorData!=="undefined" && doctorData.medical_degree!==undefined ? doctorData.medical_degree : ""}
+                                    onChange={inputHandler}
+                                    name='medical_degree'
                                 />
                             </div>
                         </div>
@@ -81,7 +150,7 @@ export default function AddDoctor() {
                                         onClick={() => setOpenDropdown(!openDropdown)}
                                     >
                                         <span>
-                                            {workingDays.length === 0 ? 'Select days' : workingDays.map((day) => day.label).join(', ')}
+                                            {workingDays.length === 0 ? 'Select days' : workingDays.join(', ')}
                                         </span>
                                         <FontAwesomeIcon icon={faChevronDown} className={`text-gray-100 ${openDropdown ? 'transform rotate-180' : ''}`} />
                                     </div>
@@ -95,7 +164,7 @@ export default function AddDoctor() {
                                                     <input
                                                         type='checkbox'
                                                         className='mr-2'
-                                                        checked={workingDays.some((workingDay) => workingDay.id === day.id)}
+                                                        checked={workingDays.includes(day.label)}
                                                         onChange={() => toggleWorkingDay(day)}
                                                     />
                                                     <span className='text-gray-100'>{day.label}</span>
@@ -110,6 +179,9 @@ export default function AddDoctor() {
                                 <input
                                     className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none'
                                     type='text'
+                                    defaultValue={typeof doctorData!=="undefined" && doctorData.speciality!==undefined ? doctorData.speciality : ""}
+                                    onChange={inputHandler}
+                                    name='speciality'
                                 />
                             </div>
                         </div>
@@ -119,9 +191,20 @@ export default function AddDoctor() {
                         <input
                             className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none'
                             type='textarea'
+                            defaultValue={typeof doctorData!=="undefined" && doctorData.address!==undefined ? doctorData.address : ""}
+                            onChange={inputHandler}
+                            name='address'
+                        />
+                        <label className='text-gray-400 mt-2' >UserName</label>
+                        <input
+                            className='rounded-lg bg-[#5588A3] mt-2 p-2 focus:border-blue-500 focus:bg-[#00334E] focus:outline-none'
+                            type='textarea'
+                            defaultValue={typeof doctorData!=="undefined" && doctorData.username!==undefined ? doctorData.username : ""}
+                            onChange={inputHandler}
+                            name='username'
                         />
                     </div>
-                    <button className='w-full my-5 py-2 bg-[#00334E] hover:bg-[#93BFCF] hover:text-[#00334E] text-gray-400 font-semibold rounded-lg'>
+                    <button className='w-full my-5 py-2 bg-[#00334E] hover:bg-[#93BFCF] hover:text-[#00334E] text-gray-400 font-semibold rounded-lg' onClick={createDoctor}>
                         Add
                     </button>
                 </div>

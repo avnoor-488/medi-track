@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import CustomUser, Prescription,Patient
+from .models import CustomUser, Prescription,Patient, Doctor
 
 class CustomUserAdmin(admin.ModelAdmin):
     def delete_model(self, request, obj):
         obj.delete()
 
-class DoctorUser(CustomUser):
+class DoctorUser(Doctor):
     class Meta:
         proxy = True
         verbose_name = 'Doctor'
@@ -24,7 +24,7 @@ class ReceptionistUser(CustomUser):
         verbose_name_plural = 'Receptionists'
 
 class DoctorAdmin(admin.ModelAdmin):
-    list_display = ('username', 'email','id')
+    list_display = ('id','username', 'email', 'full_name')
     def get_queryset(self, request):
         return super().get_queryset(request).filter(role='DOCTOR')
 
@@ -38,7 +38,7 @@ class PatientAdmin(admin.ModelAdmin):
     def doctor_assigned(self, obj):
         return obj.doctor_assigned.username if obj.doctor_assigned else None
 
-    list_display = ('id','username', 'email', 'full_name', 'blood_group', 'phone_number', 'address', 'patient_age', 'doctor_assigned')
+    list_display = ('id','username', 'email', 'full_name', 'doctor_assigned')
 
 
 class ReceptionistAdmin(admin.ModelAdmin):

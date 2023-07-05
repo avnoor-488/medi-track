@@ -13,8 +13,16 @@ import AddDoctor from "./components/AddDoctor";
 import DashboardDoctor from "./components/DashboardDoctor";
 import ViewNewPatient from "./components/ViewNewPatient";
 import ViewOldPatient from "./components/ViewOldPatient";
+import { useDispatch } from "react-redux";
+import { setReceptionistToken } from './store/slices/receptionistSlice';
+
 
 function App() {
+  const dispatch = useDispatch();
+  const token = localStorage.getItem('receptionistToken');
+  if (token) {
+    dispatch(setReceptionistToken(token));
+  }
   return (
     <Router>
       <Routes>

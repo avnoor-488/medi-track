@@ -1,11 +1,25 @@
-import React from 'react'
+import React,{useEffect, useState} from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUserDoctor, faUser, faHospitalUser } from '@fortawesome/free-solid-svg-icons'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { Link } from 'react-router-dom'
+import { setReceptionistToken } from '../store/slices/receptionistSlice'
+import { useDispatch } from 'react-redux'
 
 library.add(faUserDoctor,faUser, faHospitalUser)
 export default function Role() {
+  const [loggedInOrNot,setLoggedInOrNot] = useState(false);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    const token = localStorage.getItem('receptionistToken');
+    if (token) {
+      dispatch(setReceptionistToken(token));
+      setLoggedInOrNot(true);
+    }
+  
+  },[])
+
   return (
     <section className="bg-white py-10">
         <h1 className="text-4xl text-[#145374] font-sans from-neutral-500 text-center">SELECT USER TYPE</h1>
@@ -33,9 +47,15 @@ export default function Role() {
       
           <div className="flex flex-col items-center">
             <div className="bg-white rounded-full p-2 mr-2">
-            <Link to="/login-receptionist">
+              {loggedInOrNot===true 
+              ? <Link to="/dashboard-receptionist">
               <FontAwesomeIcon className=" text-[#5588A3] hover:text-[#93BFCF]" icon="fa-solid fa-hospital-user" size="5x" />
-            </Link>
+            </Link> :
+               <Link to="/login-receptionist">
+               <FontAwesomeIcon className=" text-[#5588A3] hover:text-[#93BFCF]" icon="fa-solid fa-hospital-user" size="5x" />
+             </Link>
+             }
+            
             </div>
             <span className="mt-2 text-2xl text-[#00334E]">Receptionist</span>
           </div>

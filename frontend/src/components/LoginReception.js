@@ -18,7 +18,8 @@ export default function Dashboard_reception() {
     await axios.post("http://localhost:8000/api/login/receptionist/", receptionistLoginInfo
     ).then((response) => {
       console.log("response", response.data);
-      const token = response.data.access
+      const token = response.data.access;
+      localStorage.setItem('receptionistToken', token);
       console.log(dispatch(setReceptionistToken(token)));
       navigate("/dashboard-receptionist")
     }).catch((error) => {

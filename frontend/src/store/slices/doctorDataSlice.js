@@ -8,8 +8,10 @@ const initialState = {
         blood_group: "",
         full_name: "",
         phone_number: "",
-        patient_age: "",
-        doctor_assigned: ""
+        doctor_age: "",
+        medical_degree:"",
+        working_days:[],
+        speciality:""
     }
 
 }
