@@ -26,10 +26,7 @@ export default function DashboardD() {
     }, []);
 
     return (
-        <div
-            className={` ${open ? 'w-60' : 'w-20 '
-                } bg-[#00334E] h-screen p-5  pt-8 relative duration-300`}
-        >
+        <div className={` ${open ? 'w-60' : 'w-20 '} bg-[#00334E] h-screen p-5  pt-8 relative duration-300`}>
             <img
                 src={LeftArrow}
                 alt="A"

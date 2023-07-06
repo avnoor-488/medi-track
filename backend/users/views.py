@@ -10,7 +10,7 @@ from rest_framework import generics, status, viewsets,views
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import CustomUser, Prescription, Patient
+from .models import CustomUser, Prescription, Patient,Doctor
 from .serializers import UserSerializer, DoctorSerializer, PatientSerializer, PrescriptionSerializer, DoctorLoginSerializer, PatientLoginSerializer, ReceptionistLoginSerializer
 from .permissions import IsReceptionist,IsDoctor
 from django.core.mail import send_mail
@@ -61,7 +61,6 @@ class PatientLoginView(generics.GenericAPIView):
 class ReceptionistLoginView(generics.GenericAPIView):
     serializer_class = ReceptionistLoginSerializer
     permission_classes = [AllowAny]
-
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -77,7 +76,7 @@ class ReceptionistLoginView(generics.GenericAPIView):
         })
 
 class DoctorViewSet(viewsets.ModelViewSet):
-    queryset = CustomUser.objects.filter(role='DOCTOR')
+    queryset = Doctor.objects.filter(role='DOCTOR')
     serializer_class = DoctorSerializer
     permission_classes = [IsAuthenticated, IsReceptionist]
 
@@ -95,12 +94,10 @@ class PatientViewSet(viewsets.ModelViewSet):
         data['id'] = str(serializer.instance.id)
         return Response(data, status=status.HTTP_201_CREATED, headers=headers)
     
-
 class PrescriptionViewSet(viewsets.ModelViewSet):
     queryset = Prescription.objects.all()
     serializer_class = PrescriptionSerializer
     permission_classes = [IsAuthenticated,]
-
 
 #view for assigning doctor to a patient
 class AssignDoctorView(views.APIView):

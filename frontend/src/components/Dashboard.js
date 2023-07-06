@@ -23,7 +23,7 @@ export default function Dashboard() {
     { title: 'Update Patient', src: Update, link: '/dashboard/update-patient' },
     { title: 'Delete Patient', src: Delete, link: '/dashboard/delete-patient' },
     { title: 'Add Doctor', src: Add, gap: true, link: '/dashboard-receptionist/add-doctor' },
-    { title: 'Update Doctor', src: Update, link: '/dashboard/update-doctor' },
+    { title: 'Update Doctor', src: Update, link: '/dashboard-receptionist/update-doctor' },
     { title: 'Delete Doctor', src: Delete, link: '/dashboard/delete-doctor' },
     { title: 'Settings', src: Settings, gap: true, link: '/dashboard/settings' },
   ];

@@ -87,4 +87,4 @@ class Doctor(CustomUser):
     address = models.TextField()
     # email = models.EmailField()
     medical_degree = models.CharField(max_length=255)
-    working_days = models.CharField(max_length=7, null=True)  # String of days separated by a comma
+    working_days = models.JSONField(null=True, blank=True)  # JSONField of days

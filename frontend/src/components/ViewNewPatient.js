@@ -117,7 +117,8 @@ export default function ViewPatient() {
                             </tbody>
                         </table>
                     </div>
-                </div>}
+                </div>
+            }
 
         </div>
     )

@@ -12,6 +12,8 @@ import About from "./components/About";
 import AddDoctor from "./components/AddDoctor";
 import DashboardDoctor from "./components/DashboardDoctor";
 import ViewNewPatient from "./components/ViewNewPatient";
+import UpdateDoctor from "./components/UpdateDoctor"
+import UpdateDoctorDataForm from "./components/UpdateDoctorDataForm"
 import ViewOldPatient from "./components/ViewOldPatient";
 import { useDispatch } from "react-redux";
 import { setReceptionistToken } from './store/slices/receptionistSlice';
@@ -23,6 +25,7 @@ function App() {
   if (token) {
     dispatch(setReceptionistToken(token));
   }
+
   return (
     <Router>
       <Routes>
@@ -31,6 +34,8 @@ function App() {
         <Route path="/login-patient" element={<LoginPatient />} />
         <Route path="/login-doctor" element={<LoginDoctor />} />
         <Route path="/dashboard-receptionist" element={<Dashboard />} />
+        <Route path="/dashboard-receptionist/update-doctor" element={<UpdateDoctor />} />
+        <Route path="/dashboard-receptionist/update-doctor/:id" element={<UpdateDoctorDataForm />} />
         <Route path="/dashboard-receptionist/add-patient" element={<AddPatient />} />
         <Route path="/dashboard-receptionist/add-doctor" element={<AddDoctor />} />
         <Route path="/dashboard-doctor" element={<DashboardDoctor />} />
