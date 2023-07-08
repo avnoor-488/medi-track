@@ -1,7 +1,12 @@
 import React from 'react'
 import DashboardD from './DashboardD'
-
+import { useNavigate } from "react-router-dom";
 export default function ViewPatient() {
+  let navigate = useNavigate(); 
+  const routeChange = () =>{ 
+    let path = `../dashboardd/view-patient/prescription`; 
+    navigate(path);
+  }
     const data = [
         {
           name: 'John Doe',
@@ -71,6 +76,7 @@ export default function ViewPatient() {
             <tr
               key={index}
               className={index % 2 === 0 ? 'bg-[#BDCDD6] hover:bg-[#93BFCF]' : 'hover:bg-[#93BFCF]'}
+              onClick={routeChange}
             >
               <td className="py-2 px-4 border-b">{item.name}</td>
               <td className="py-2 px-4 border-b">{item.age}</td>

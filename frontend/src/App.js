@@ -12,6 +12,7 @@ import About from "./components/About";
 import AddDoctor from "./components/AddDoctor";
 import DashboardD from "./components/DashboardD";
 import ViewPatient from "./components/ViewPatient";
+import AddPrescription from "./components/AddPrescription";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/dashboard/add-patient" element={<AddPatient />} />
         <Route path="/dashboard/add-doctor" element={<AddDoctor />} />
         <Route path="/dashboardd/view-patient" element={<ViewPatient />} />
+        <Route path="/dashboardd/view-patient/prescription" element={<AddPrescription />} />
       </Routes>
     </Router>
   );

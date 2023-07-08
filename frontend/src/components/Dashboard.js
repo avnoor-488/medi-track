@@ -13,7 +13,7 @@ export default function Dashboard() {
   const [open, setOpen] = useState(true);
   const Menus = [
     { title: 'Dashboard', src: Dashboard1, link: '/' },
-    { title: 'Add patient', src: Add, gap: true, link: '/dashboard/add-patient' },
+    { title: 'Add patient', src: Add, gap: true, link: 'c' },
     { title: 'Update Patient', src: Update, link: '/dashboard/update-patient' },
     { title: 'Delete Patient', src: Delete, link: '/dashboard/delete-patient' },
     { title: 'Add Doctor', src: Add, gap: true, link: '/dashboard/add-doctor' },
