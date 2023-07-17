@@ -1,3 +1,4 @@
+#admin.py
 from django.contrib import admin
 from .models import CustomUser, Prescription,Patient, Doctor
 
@@ -29,16 +30,11 @@ class DoctorAdmin(admin.ModelAdmin):
         return super().get_queryset(request).filter(role='DOCTOR')
 
 class PatientAdmin(admin.ModelAdmin):
-    def username(self, obj):
-        return obj.user.username
-
-    def email(self, obj):
-        return obj.user.email
-
     def doctor_assigned(self, obj):
         return obj.doctor_assigned.username if obj.doctor_assigned else None
 
-    list_display = ('id','username', 'email', 'full_name', 'doctor_assigned')
+    list_display = ('id', 'username', 'email', 'full_name', 'doctor_assigned')
+
 
 
 class ReceptionistAdmin(admin.ModelAdmin):

@@ -15,6 +15,7 @@ import ViewNewPatient from "./components/ViewNewPatient";
 import UpdateDoctor from "./components/UpdateDoctor"
 import UpdateDoctorDataForm from "./components/UpdateDoctorDataForm"
 import ViewOldPatient from "./components/ViewOldPatient";
+import AddPrescription from "./components/AddPrescription"
 import { useDispatch } from "react-redux";
 import { setReceptionistToken } from './store/slices/receptionistSlice';
 
@@ -41,7 +42,7 @@ function App() {
         <Route path="/dashboard-doctor" element={<DashboardDoctor />} />
         <Route path="/dashboard-doctor/view-new-patient" element={<ViewNewPatient />} />
         <Route path="/dashboard-doctor/view-old-patient" element={<ViewOldPatient />} />
-
+        <Route path="/dashboardd/view-patient/prescription" element={<AddPrescription />} />
       </Routes>
     </Router>
   );

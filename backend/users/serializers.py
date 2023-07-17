@@ -1,7 +1,9 @@
+#serializers.py
 from rest_framework import serializers
 from django.core.mail import send_mail
 from django.contrib.auth import authenticate
 from .models import CustomUser, Prescription, Patient,Doctor
+from .utils import get_password_reset_link
 
 def send_password_email(email, password,username,role):
         # Email notification to the doctor
@@ -74,7 +76,9 @@ class DoctorSerializer(serializers.ModelSerializer):
             working_days=validated_data['working_days'],
         )
         # Email the password to the doctor
-        send_password_email(validated_data['email'], password,validated_data['full_name'],role="doctor")
+        reset_link = get_password_reset_link(doctor, self.context['request'])
+        # send_password_email(validated_data['email'], password,validated_data['full_name'],role="doctor")
+        send_password_email(validated_data['email'], reset_link, validated_data['full_name'], role="doctor")
         return doctor
 
 class PatientSerializer(serializers.ModelSerializer):
@@ -95,7 +99,10 @@ class PatientSerializer(serializers.ModelSerializer):
             patient_age=validated_data.get('patient_age'),
             doctor_assigned=validated_data.get('doctor_assigned'),
         )
-        send_password_email(validated_data['email'], password,validated_data["full_name"],role="patient")
+        # send_password_email(validated_data['email'], password,validated_data["full_name"],role="patient")
+        reset_link = get_password_reset_link(patient, self.context['request'])
+        send_password_email(validated_data['email'], reset_link, validated_data["full_name"], role="patient")
+
         return patient
 
 class PrescriptionSerializer(serializers.ModelSerializer):

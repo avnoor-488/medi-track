@@ -27,6 +27,10 @@ export default function Dashboard_reception() {
     })
   }
 
+  useEffect(() => {
+    console.log("hello nandini");
+  }, [receptionistToken])
+
 
   // const inputHandler = (e) => {
   //   let name = e.target.name;

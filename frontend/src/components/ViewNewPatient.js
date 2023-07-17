@@ -80,6 +80,7 @@ export default function ViewPatient() {
     }, []);
 
 
+
     // useEffect(() => {
     //     if (!doctorToken) {
     //         navigate('/login-doctor');
