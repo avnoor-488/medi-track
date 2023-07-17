@@ -27,6 +27,53 @@ The Medi-Track is a comprehensive web-based application designed specifically fo
 
 - Github Actions
 
+
+## Installation and Setup
+
+To run the MediTrack application locally, follow these steps:
+
+- Clone the repository:
+
+
+```bash
+git clone https://github.com/your-username/medi-track.git
+cd medi-track
+
+```
+- Install frontend dependencies:
+
+```bash
+cd frontend
+npm install
+```
+
+- Install backend dependencies:
+
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+- Set up the database:
+
+```bash
+python manage.py migrate
+```
+- Start the development server of backend:
+
+```bash
+python manage.py runserver
+```
+- Start the development server of frontend:
+
+```bash
+npm run dev
+```
+
+You can now access the MediTrack application by visiting http://localhost:3000/ in your web browser.
+
+
+
 ## Environment Variables
 
 In order to run the application smoothly, you need to set the following environment variables:
@@ -44,24 +91,27 @@ For example, if you are using Django, you can configure these environment variab
 EMAIL_HOST_USER = 'your_email@example.com'
 EMAIL_HOST_PASSWORD = 'your_smtp_api_key'
 ``````
-Make sure to replace 'your_email@example.com' and 'your_smtp_api_key' with the actual email address and SMTP API key provided by Sendinblue.
+Make sure to replace `your_email@example.com` and `your_smtp_api_key` with the actual email address and SMTP API key provided by Sendinblue.
 
 ## API References
 
 ### Login API
 
 - **Login existing receptionist**
+  
   ```http
   POST /api/login/receptionist/
-    ```
+    ````
 - **Login existing doctor**
+  
   ```http
   POST /api/login/doctor/
-    ```
+    ````
 - **Login existing patient**
+  
   ```http
   POST /api/login/patient/
-    ```
+    ````
 Create a new user session by providing valid credentials.
 
 #### Request
@@ -86,13 +136,14 @@ Create a new user session by providing valid credentials.
 ### Doctor's API
 
 - **Get All Doctors**
+  
   ````http
     GET /api/doctors/
-    ```
+    ````
   | Headers   | Type     | Description                                                        |
   | :------------- | :------- | :----------------------------------------------------------------- |
   | `access token` | `token` | **Required**. token of doctor which we got on login response of login's api |
-  ````
+  
 
 #### Response
 
@@ -131,13 +182,14 @@ Create a new user session by providing valid credentials.
 ### Patient Detail API
 
 - **Get All Patients (only doctor do have the access of this)**
+  
   ````http
     GET /api/patients/
-    ```
+    ````
   | Headers   | Type     | Description                                                        |
   | :------------- | :------- | :----------------------------------------------------------------- |
   | `access token` | `token` | **Required**. token of doctor which we got on login response of login's api |
-  ````
+  
 
 Retrieves details of all patients assigned to doctor.
 
@@ -174,3 +226,10 @@ Retrieves details of all patients assigned to doctor.
 ![dashBoard](./screenshots/dashBoard-recp1.png)
 
 ![dashBoard](./screenshots/dashBoard-recp2.png)
+
+
+
+## Authors
+
+- [@Nandini Setia](https://www.github.com/nandinisetia)
+- [@Avnoor Singh](https://www.github.com/avnoor-488)
