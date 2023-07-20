@@ -1,6 +1,6 @@
 import React from 'react'
 import LoginImg from '../assets/login.jpg'
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 export default function DashboardDoctor() {
   let navigate = useNavigate(); 
   const routeChange = () =>{ 
@@ -25,7 +25,9 @@ export default function DashboardDoctor() {
           </div>
           <div className='flex justify-between text-gray-400 py-2'>
             <p className='flex items-center'><input className="mr-1" type="checkbox"/> Remember password</p>
+            <Link to="/dashboard-doctor/forgot-password">
             <p>Forgot Password?</p>
+            </Link>
           </div>
           <button className='w-full my-5 py-2 bg-[#00334E]  hover:bg-[#93BFCF] hover:text-[#00334E] text-gray-400 font-semibold rounded-lg' onClick={routeChange}>Sign In</button>
         </form>
